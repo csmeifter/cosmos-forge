@@ -25,14 +25,14 @@ An immersive, browser-based space colony builder where players select a celestia
 
 | Building | Cost | Effect |
 |----------|------|--------|
-| 🏠 Habitat Module | 50 minerals | +10 population cap, consumes O₂/water/food/energy |
-| 🌱 Greenhouse | 60 min + 30 energy | Produces food, consumes water & energy |
+| 🏠 Habitat Module | 50 minerals + 20 energy | +10 population cap, consumes O₂/water/food/energy |
+| 🌱 Greenhouse | 60 minerals + 30 energy | Produces food, consumes water & energy |
 | ⚡ Solar Array | 40 minerals | Produces energy (varies by location) |
-| 💧 Water Extractor | 50 min + 20 energy | Produces water (varies by location) |
-| 🫁 Oxygen Generator | 45 min + 25 energy | Produces oxygen, consumes energy |
-| ⛏️ Mining Facility | 40 min + 15 energy | Produces minerals |
-| 🔬 Research Lab | 80 min + 40 energy | Generates research points each turn |
-| 🛡️ Shield Generator | 70 min + 35 energy | Reduces chance of harmful random events |
+| 💧 Water Extractor | 50 minerals + 20 energy | Produces water (varies by location) |
+| 🫁 Oxygen Generator | 45 minerals + 25 energy | Produces oxygen, consumes energy |
+| ⛏️ Mining Facility | 40 minerals + 15 energy | Produces minerals |
+| 🔬 Research Lab | 80 minerals + 40 energy | Generates research points each turn |
+| 🛡️ Shield Generator | 70 minerals + 35 energy | Reduces chance of harmful random events |
 
 ---
 

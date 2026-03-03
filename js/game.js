@@ -535,7 +535,10 @@ function renderGrid() {
         <span class="tile-emoji">${bld.emoji}</span>
         ${cell.offlineTurns > 0 ? `<span class="offline-badge">${cell.offlineTurns}</span>` : ''}
       `;
-      tile.title = `${bld.name}${cell.offlineTurns > 0 ? ` (offline ${cell.offlineTurns} turn${cell.offlineTurns > 1 ? 's' : ''})` : ''}\nClick to demolish`;
+      const offlineStatus = cell.offlineTurns > 0
+        ? ` (offline ${cell.offlineTurns} turn${cell.offlineTurns > 1 ? 's' : ''})`
+        : '';
+      tile.title = `${bld.name}${offlineStatus}\nClick to demolish`;
       tile.addEventListener('click', () => handleGridTileClick(idx));
     } else {
       tile.classList.add('empty');
@@ -645,7 +648,7 @@ function updateBuildingHint() {
   if (!hint) return;
   if (gameState.selectedBuilding) {
     const bld = BUILDINGS[gameState.selectedBuilding];
-    hint.textContent = `${bld.emoji} ${bld.name} selected — click an empty grid tile to place it. Click tile again to cancel.`;
+    hint.textContent = `${bld.emoji} ${bld.name} selected — click an empty grid tile to place it. Click the building card again to cancel.`;
     hint.classList.remove('hidden');
   } else {
     hint.classList.add('hidden');

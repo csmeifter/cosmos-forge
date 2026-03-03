@@ -14,7 +14,7 @@ const EVENTS = [
     locations: ['mars', 'moon', 'europa', 'titan'],
     apply(state) {
       // Damage a random placed building (offline for 1 turn)
-      const placed = state.grid.filter(c => c.buildingId && !c.destroyed);
+      const placed = state.grid.filter(c => c.buildingId);
       if (placed.length === 0) {
         return { message: 'Meteor shower strikes! Fortunately no buildings were hit.', resource: null };
       }
