@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celestial Frontier — Space Colony Builder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Favicons / tab icon via emoji -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LANDING / SETUP SCREEN
+     ═══════════════════════════════════════════════════════════ -->
+<div id="landing-screen" class="screen">
+
+  <!-- Animated background -->
+  <div class="star-field" id="star-field"></div>
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+
+  <div class="landing-content">
+    <div class="landing-logo">🚀</div>
+    <h1 class="landing-title">Celestial Frontier</h1>
+    <p class="landing-subtitle">Forge Your Colony Among the Stars</p>
+
+    <div class="setup-panel">
+
+      <!-- Colony name -->
+      <label class="setup-label" for="colony-name">Name Your Colony</label>
+      <input
+        id="colony-name"
+        class="colony-name-input"
+        type="text"
+        maxlength="40"
+        placeholder="e.g. Nova Olympus, Lunar Base Alpha…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+
+      <!-- Celestial body selection -->
+      <span class="celestial-select-label">Choose Your Destination</span>
+      <div id="celestial-grid"></div>
+
+      <!-- Start button -->
+      <button id="start-btn" class="launch-btn" disabled>
+        🚀 &nbsp;Launch Colony
+      </button>
+    </div>
+  </div>
+</div><!-- /#landing-screen -->
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     GAME SCREEN
+     ═══════════════════════════════════════════════════════════ -->
+<div id="game-screen" class="screen hidden">
+
+  <!-- ── Header ───────────────────────────────────────── -->
+  <header class="game-header">
+    <div class="game-header-logo">⚙️ Celestial Frontier</div>
+    <div class="header-info">
+      <span class="colony-badge" id="colony-title">Colony Name</span>
+      <span class="location-badge" id="colony-location">🔴 Mars</span>
+      <span class="sol-badge" id="sol-counter">Sol 1</span>
+    </div>
+    <div class="header-actions">
+      <button id="sidebar-toggle" class="resource-toggle">📚 Hide Facts</button>
+    </div>
+  </header>
+
+  <!-- ── Resource Bar ──────────────────────────────────── -->
+  <div class="resources-panel">
+
+    <div id="res-oxygen" class="resource-item">
+      <span class="resource-emoji">🫁</span>
+      <div class="resource-info">
+        <div class="resource-label">Oxygen</div>
+        <div class="resource-bar-wrap"><div class="resource-fill" style="width:50%"></div></div>
+        <div class="resource-numbers">
+          <span class="resource-value">—</span>
+          <span class="resource-delta">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="res-water" class="resource-item">
+      <span class="resource-emoji">💧</span>
+      <div class="resource-info">
+        <div class="resource-label">Water</div>
+        <div class="resource-bar-wrap"><div class="resource-fill" style="width:50%"></div></div>
+        <div class="resource-numbers">
+          <span class="resource-value">—</span>
+          <span class="resource-delta">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="res-energy" class="resource-item">
+      <span class="resource-emoji">⚡</span>
+      <div class="resource-info">
+        <div class="resource-label">Energy</div>
+        <div class="resource-bar-wrap"><div class="resource-fill" style="width:50%"></div></div>
+        <div class="resource-numbers">
+          <span class="resource-value">—</span>
+          <span class="resource-delta">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="res-food" class="resource-item">
+      <span class="resource-emoji">🌱</span>
+      <div class="resource-info">
+        <div class="resource-label">Food</div>
+        <div class="resource-bar-wrap"><div class="resource-fill" style="width:50%"></div></div>
+        <div class="resource-numbers">
+          <span class="resource-value">—</span>
+          <span class="resource-delta">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="res-minerals" class="resource-item">
+      <span class="resource-emoji">⛏️</span>
+      <div class="resource-info">
+        <div class="resource-label">Minerals</div>
+        <div class="resource-bar-wrap"><div class="resource-fill" style="width:50%"></div></div>
+        <div class="resource-numbers">
+          <span class="resource-value">—</span>
+          <span class="resource-delta">—</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.resources-panel -->
+
+  <!-- ── Stats Bar ─────────────────────────────────────── -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-label">👥 Population</span>
+      <span class="stat-value" id="population-display">—</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">😊 Morale</span>
+      <div class="morale-bar-wrap"><div id="morale-fill" style="width:70%"></div></div>
+      <span class="stat-value" id="morale-display">—</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">🔭 Research Pts</span>
+      <span class="stat-value" id="research-points-display">0</span>
+    </div>
+  </div>
+
+  <!-- ── Game Body (3 columns) ─────────────────────────── -->
+  <div class="game-body">
+
+    <!-- Left: Buildings Panel -->
+    <aside class="left-panel">
+      <div class="panel-title">🏗️ Build Structures</div>
+      <div id="building-hint" class="hidden"></div>
+      <div id="building-cards"></div>
+    </aside>
+
+    <!-- Centre: Colony Grid -->
+    <main class="centre-panel">
+      <div class="grid-label">🗺️ Colony Map</div>
+      <div id="colony-grid"></div>
+    </main>
+
+    <!-- Right: Event Log + Info -->
+    <aside class="right-panel">
+      <div class="panel-title">📡 Event Log</div>
+      <div class="event-log-wrap">
+        <div id="event-log"></div>
+      </div>
+    </aside>
+
+  </div><!-- /.game-body -->
+
+  <!-- ── Research Section ──────────────────────────────── -->
+  <section class="research-section">
+    <div class="research-header-bar">
+      <div class="panel-title" style="margin-bottom:0">🔭 Research &amp; Upgrades — <span id="research-points-display2" style="color:var(--accent-cyan)">0</span> pts available</div>
+      <button class="research-toggle-btn" id="research-toggle-btn" onclick="
+        document.getElementById('research-content').classList.toggle('collapsed');
+        this.textContent = document.getElementById('research-content').classList.contains('collapsed') ? '▶ Show Research' : '▼ Hide Research';
+      ">▼ Hide Research</button>
+    </div>
+    <div id="research-content" class="research-content">
+      <div id="research-cards"></div>
+    </div>
+  </section>
+
+  <!-- ── Educational Sidebar ───────────────────────────── -->
+  <aside id="educational-sidebar">
+    <div class="sidebar-header">
+      <span id="sidebar-title">🔴 About Mars</span>
+    </div>
+    <div class="sidebar-content">
+      <div>
+        <ul id="facts-list"></ul>
+      </div>
+      <div>
+        <div class="sidebar-links-title">🔗 Learn More (NASA / ESA)</div>
+        <div id="facts-links"></div>
+        <div style="margin-top:16px; padding:12px; background:rgba(180,94,245,0.08); border:1px solid rgba(180,94,245,0.2); border-radius:8px;">
+          <p style="font-size:0.75rem; color:var(--text-dim); line-height:1.5;">
+            <strong style="color:var(--accent-purple);">🌌 Challenger Center</strong><br/>
+            This project is part of the Challenger Center Space Challenge — inspiring the next generation of space explorers through hands-on STEM education.
+          </p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Footer ─────────────────────────────────────────── -->
+  <footer class="game-footer">
+    <div class="footer-hint">
+      💡 Select a building on the left, then click an empty grid tile to place it. Click a building on the grid to demolish it. Advance time with <em>Next Sol</em>.
+    </div>
+    <button id="next-sol-btn">⏭️ &nbsp;Next Sol →</button>
+  </footer>
+
+</div><!-- /#game-screen -->
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     WIN MODAL
+     ═══════════════════════════════════════════════════════════ -->
+<div id="win-modal" class="modal-overlay win-modal hidden">
+  <div class="modal-box">
+    <div class="modal-title modal-win-title">🏆 Victory!</div>
+    <div class="modal-subtitle">Your colony thrives among the stars!</div>
+    <div id="win-stats"></div>
+    <button id="play-again-win" class="modal-btn modal-btn-win">🚀 Play Again</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LOSE MODAL
+     ═══════════════════════════════════════════════════════════ -->
+<div id="lose-modal" class="modal-overlay lose-modal hidden">
+  <div class="modal-box">
+    <div class="modal-title modal-lose-title">💥 Colony Lost</div>
+    <div class="modal-subtitle">The stars claim another frontier…</div>
+    <div id="lose-reason"></div>
+    <button id="play-again-lose" class="modal-btn modal-btn-lose">🔄 Try Again</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TOAST CONTAINER
+     ═══════════════════════════════════════════════════════════ -->
+<div id="toast-container"></div>
+
+
+<!-- ── Scripts ──────────────────────────────────────────────── -->
+<script src="js/data.js"></script>
+<script src="js/buildings.js"></script>
+<script src="js/events.js"></script>
+<script src="js/game.js"></script>
+
+<!-- Generate starfield -->
+<script>
+(function generateStars() {
+  const field = document.getElementById('star-field');
+  if (!field) return;
+  const count = 180;
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    star.style.cssText = [
+      `width:${size}px`,
+      `height:${size}px`,
+      `top:${Math.random() * 100}%`,
+      `left:${Math.random() * 100}%`,
+      `--dur:${(Math.random() * 4 + 2).toFixed(1)}s`,
+      `--delay:${(Math.random() * 5).toFixed(1)}s`,
+      `--bright:${(Math.random() * 0.5 + 0.4).toFixed(2)}`
+    ].join(';');
+    field.appendChild(star);
+  }
+})();
+</script>
+
+</body>
+</html>
